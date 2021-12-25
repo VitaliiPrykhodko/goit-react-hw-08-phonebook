@@ -1,4 +1,4 @@
-import Form from "./Form/Form.js";
+import Form from "./Form/Form";
 import ContactList from "./Contacts/ContactsList";
 import Filter from "./Filter/Filter";
 import styles from "./App.module.css";
