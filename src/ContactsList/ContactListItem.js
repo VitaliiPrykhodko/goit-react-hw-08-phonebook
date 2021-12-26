@@ -5,10 +5,10 @@ import { deleteContact } from "../Redux/Counter/counter-operation";
 
 const ContactListItem = ({ contacts }) => {
   const dispatch = useDispatch()
-    return contacts.map(({id,name,phone}) => {
+    return contacts.map(({id,name,number}) => {
        return (
     <li key={id} className={styles.contact_item}>
-      <span>{name}</span>: <span>{phone}</span>
+      <span>{name}</span>: <span>{number}</span>
       <button className={styles.contact_btn} onClick={()=> dispatch(deleteContact(id))}>
         Delete
       </button>
@@ -21,7 +21,7 @@ ContactListItem.propTypes = {
     contacts: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.node.isRequired,
         name: PropTypes.string.isRequired,
-        phone: PropTypes.string.isRequired
+        number: PropTypes.string.isRequired
     })),
 }
 

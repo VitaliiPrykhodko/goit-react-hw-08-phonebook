@@ -1,29 +1,21 @@
 import { configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
-import { combineReducers } from "redux";
 import thunk from "redux-thunk";
-import {items, filter, loading, error} from "./Counter/counter-reducer";
-import logger from "redux-logger";
+import reducer from "./Counter/counter-reducer";
+import authReducer from "./auth/auth-slice";
 
-const persistConfig = {
-  key: "root",
+const authPersistConfig = {
+  key: 'auth',
   storage,
-};
-
-const reducer = combineReducers({
-  items,
-  filter,
-  loading,
-  error
-});
-
-const persistedReducer = persistReducer(persistConfig, reducer);
+   whitelist: ['token'],
+}
 
 export const store = configureStore({
-  reducer: {
-    contacts: persistedReducer,
-  },
+ reducer: {
+    contacts: reducer,
+    auth: persistReducer(authPersistConfig, authReducer),
+},
   devTools: process.env.NODE_ENV !== "production",
-  middleware: [thunk, logger],
+  middleware: [thunk],
 });

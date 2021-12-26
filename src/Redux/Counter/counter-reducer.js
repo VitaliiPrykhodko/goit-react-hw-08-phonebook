@@ -1,5 +1,6 @@
 import { createReducer} from '@reduxjs/toolkit';
 import { changeFilter } from './counter-action';
+import { combineReducers } from "redux";
 
 import {
   fetchContacts,
@@ -7,14 +8,14 @@ import {
   addContact,
 } from './counter-operation.js';
 
-export const items = createReducer([], {
+const items = createReducer([], {
   [fetchContacts.fulfilled]: (_, { payload }) => payload,
   [addContact.fulfilled]: (state, { payload }) => [...state, payload],
   [deleteContact.fulfilled]: (state, { payload }) =>
     state.filter(({ id }) => id !== payload),
 });
 
-export const loading = createReducer(false, {
+const loading = createReducer(false, {
   [fetchContacts.pending]: () => true,
   [fetchContacts.fulfilled]: () => false,
   [fetchContacts.rejected]: () => false,
@@ -26,11 +27,11 @@ export const loading = createReducer(false, {
   [deleteContact.rejected]: () => false,
 });
 
-export const filter = createReducer('', {
+const filter = createReducer('', {
   [changeFilter]: (_, { payload }) => payload,
 });
 
-export const error = createReducer(null, {
+const error = createReducer(null, {
   [fetchContacts.rejected]: (_, { payload }) => payload,
   [fetchContacts.fulfilled]: () => null,
   [addContact.rejected]: (_, { payload }) => payload,
@@ -38,4 +39,13 @@ export const error = createReducer(null, {
   [deleteContact.rejected]: (_, { payload }) => payload,
   [deleteContact.fulfilled]: () => null,
 });
+
+const reducer = combineReducers({
+  items,
+  filter,
+  loading,
+  error
+});
+
+export default reducer
 
