@@ -3,15 +3,6 @@ import axios from 'axios';
 
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
-const token = {
-  set(token) {
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-  },
-  unset() {
-    axios.defaults.headers.common.Authorization = "";
-  },
-};
-
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchContacts',
   async () => {
@@ -23,9 +14,8 @@ export const fetchContacts = createAsyncThunk(
 export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async contactId => {
-    const {data}  = await axios.delete(`/contacts/${contactId}`);
-    token.set(data)
-    return console.log(data);;
+    await axios.delete(`/contacts/${ contactId }`);
+    return contactId;
   }
 );
 
@@ -35,7 +25,6 @@ export const addContact = createAsyncThunk(
     const contact = { name, number };
 
     const { data } = await axios.post('/contacts', contact);
-    token.unset(data)
-    return data.id;
+    return data;
   }
 );

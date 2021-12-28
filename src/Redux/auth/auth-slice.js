@@ -4,7 +4,8 @@ import authOperation from "./auth-operation";
 const initialState = {
     user: { name: null, email: null },
     token: null,
-    isLoggedIn: false
+    isLoggedIn: false,
+    isFetchCurrentUser: false
 }
 const authSlice = createSlice({
   name: "auth",
@@ -25,10 +26,17 @@ const authSlice = createSlice({
       state.token = null;
       state.isLoggedIn = false;
     },
-    // [authOperations.fetchCurrentUser.fulfilled](state, action) {
-    //   state.user = action.payload;
-    //   state.isLoggedIn = true;
-    // },
+    [authOperation.fetchCurrentUser.pending](state) {
+      state.isFetchCurrentUser = true
+    },
+    [authOperation.fetchCurrentUser.fulfilled](state, action) {
+      state.user = action.payload;
+      state.isLoggedIn = true;
+      state.isFetchCurrentUser = false
+    },
+    [authOperation.fetchCurrentUser.rejected](state) {
+      state.isFetchCurrentUser = false
+    },
   },
 });
 
