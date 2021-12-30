@@ -13,7 +13,7 @@ function Form() {
   function handleAddContact(name, number) {
     if (
       contacts.find((contact) => {
-        return contact.name === name || contact.number === number;
+        return contact.name === name;
       })
     )
       return alert(`${name} is already in contacts`);
